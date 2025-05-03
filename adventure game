@@ -1,0 +1,114 @@
+import time
+import random
+
+def print_pause(lines):
+    print(lines)
+    time.sleep(2)
+
+def main_game():
+    weapons = ['iron shiny sword', 'pistol', 'knife']
+    monsters = ['dragon', 'zombie', 'vampire', 'wicked fairie']
+    found_monster = random.choice(monsters)
+
+    def intro():
+        print_pause('Your goal is to kill the vampire .')
+        print_pause('Note: your score now is 0 if you make right decision (+1) & wrong decision (-1) & victory (+3) & lose (-3)')
+        print_pause('You were on your ship in the sea and there was a strong storm.')
+        print_pause('This storm made your ship sink and you fainted.')
+        print_pause("After you woke up from fainting, you found yourself on an island.")
+        print_pause('You found a vampire . You ran from him until you escaped.')
+        print_pause('You found a scary house.')
+        print_pause('Enter 1 to enter the house & enter 2 to continue exploring.')
+
+    def house():
+        print_pause('You entered the house carefully.')
+        print_pause('You found the vampire in your face and he killed you.')
+        print_pause('You lost.')
+
+    def continue_exploring():
+        print_pause('You continued exploring and walking on the island.')
+        print_pause('You found a strange chest. Would you open it?')
+        print_pause('Enter 1 to open the chest & enter 2 to continue walking.')
+
+    def opening_chest():
+        found_weapon = random.choice(weapons)  # Choose a random weapon.
+        print_pause(f'You opened the chest and found a {found_weapon}!')
+        print_pause('When you took the weapon, you started looking for the vampire to kill him.')
+        print_pause('You go to the house that you found in the beginning but you saw a campfire between the trees.')
+        print_pause('Enter 1 to enter the house & enter 2 to go to the campfire.')
+
+    def continue_walking():
+        print_pause('You continued walking.')
+        print_pause('But the vampire found you.')
+        print_pause('You tried to escape but you could not and the vampire killed you.')
+
+    def house_2():
+        print_pause('You entered the house but it was empty.')
+        print_pause('You exited the house and went to the campfire that you saw.')
+
+    def going_to_campfire():
+        print_pause('You went to the campfire.')
+        print_pause('You found a lot of blood and dead people. You looked behind you, and you found the {found_monster}.')
+        print_pause('You started to fight the vampire .')
+        print_pause('Finally, you defeated the vampire and you won!')
+
+    def play_again():
+        user_response = input("Do you want to play again? (yes/no): ")
+        if user_response.lower() == 'yes':
+            main_game()
+        elif user_response.lower() == 'no':
+            print("Thanks for playing!")
+        else:
+            print("Invalid input. Please enter 'yes' or 'no'.")
+            play_again()  # Ask again if the input is invalid
+
+    intro()
+    score = 0
+    choice = 0
+    while choice != '2':
+        choice = str(input('What would you do? '))
+        if choice == '1':
+            score -= 3
+            print('Your score now is: ' + str(score))
+            house()
+            play_again()
+            break
+        elif choice == '2':
+            score += 1
+            print('Your score now is: ' + str(score))
+            continue_exploring()
+            choice2 = 0
+            while choice2 != '2':
+                choice2 = str(input('What would you do? '))
+                if choice2 == '1':
+                    score += 1
+                    print('Your score now is: ' + str(score))
+                    opening_chest()
+                    choice3 = str(input('What would you like to do? (1: Enter house, 2: Go to campfire): '))
+                    if choice3 == '1':
+                        score -= 1
+                        print('Your score now is: ' + str(score))
+                        print('Note: Your score (-1) because you chose the long road.')
+                        house_2()
+                        score += 3
+                        print('Your score now is: ' + str(score))
+                        going_to_campfire()
+                    elif choice3 == '2':
+                        score += 3
+                        print('Your score now is: ' + str(score))
+                        going_to_campfire()
+                        play_again()
+                    else:
+                        print('Try again! (please enter 1 or 2)')
+                elif choice2 == '2':
+                    score -= 3
+                    print('Your score now is: ' + str(score))
+                    continue_walking()
+                    play_again()
+                    break
+                else:
+                    print('Try again! (please enter 1 or 2)')
+        else:
+            print('Try again! (please enter 1 or 2)')
+
+main_game()
